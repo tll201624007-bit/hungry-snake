@@ -13,6 +13,7 @@ const leaderboardEl = document.querySelector("#leaderboard");
 const playerNameEl = document.querySelector("#playerName");
 const nameStatusEl = document.querySelector("#nameStatus");
 const speedModeEl = document.querySelector("#speedMode");
+const touchControlEls = document.querySelectorAll("[data-direction]");
 
 const gridSize = 20;
 const tileCount = canvas.width / gridSize;
@@ -231,6 +232,16 @@ function setDirection(newDirection) {
   }
 }
 
+function handleDirectionInput(newDirection) {
+  if (!running) {
+    startGame();
+  }
+
+  if (running && !paused) {
+    setDirection(newDirection);
+  }
+}
+
 async function loadLeaderboard() {
   try {
     const response = await fetch("/api/leaderboard");
@@ -345,10 +356,7 @@ window.addEventListener("keydown", (event) => {
 
   if (keys[event.key]) {
     event.preventDefault();
-    if (!running) {
-      startGame();
-    }
-    setDirection(keys[event.key]);
+    handleDirectionInput(keys[event.key]);
   }
 
   if (event.code === "Space") {
@@ -367,6 +375,19 @@ startButton.addEventListener("click", () => {
 
 pauseButton.addEventListener("click", togglePause);
 refreshButton.addEventListener("click", loadLeaderboard);
+touchControlEls.forEach((button) => {
+  const directions = {
+    up: { x: 0, y: -1 },
+    down: { x: 0, y: 1 },
+    left: { x: -1, y: 0 },
+    right: { x: 1, y: 0 },
+  };
+
+  button.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    handleDirectionInput(directions[button.dataset.direction]);
+  });
+});
 speedModeEl.addEventListener("change", () => {
   speedModeKey = speedModeEl.value;
   localStorage.setItem("snakeSpeedMode", speedModeKey);
