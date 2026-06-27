@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>霓虹贪吃蛇</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="game-panel" aria-label="贪吃蛇游戏">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">Snake Arcade</p>
+            <h1>霓虹贪吃蛇</h1>
+          </div>
+          <div class="score-stack" aria-live="polite">
+            <span>得分</span>
+            <strong id="score">0</strong>
+          </div>
+        </div>
+
+        <div class="board-wrap">
+          <canvas id="game" width="520" height="520" aria-label="游戏棋盘"></canvas>
+          <div class="overlay is-visible" id="overlay">
+            <h2 id="overlayTitle">准备开始</h2>
+            <p id="overlayText">按方向键移动，吃到能量点就会变长。</p>
+            <button id="startButton" type="button">开始游戏</button>
+          </div>
+        </div>
+
+        <div class="controls-row">
+          <div class="metric">
+            <span>最高分</span>
+            <strong id="bestScore">0</strong>
+          </div>
+          <div class="speed-picker">
+            <label for="speedMode">速度档位</label>
+            <select id="speedMode">
+              <option value="novice">新手（慢）</option>
+              <option value="expert" selected>高手（普通）</option>
+              <option value="master">绝世高手（快）</option>
+            </select>
+            <strong id="speedLabel">高手</strong>
+          </div>
+          <button id="pauseButton" type="button" disabled>暂停</button>
+        </div>
+      </section>
+
+      <aside class="side-panel" aria-label="排行榜">
+        <div class="player-box">
+          <label for="playerName">玩家名</label>
+          <input id="playerName" maxlength="16" autocomplete="off" placeholder="请输入游戏名" required />
+          <p class="name-status" id="nameStatus">输入游戏名后才能开始游戏。</p>
+        </div>
+
+        <div class="leaderboard-head">
+          <div>
+            <p class="eyebrow">Top 10</p>
+            <h2>排行榜</h2>
+          </div>
+          <button id="refreshButton" type="button" title="刷新排行榜">刷新</button>
+        </div>
+
+        <ol class="leaderboard" id="leaderboard"></ol>
+
+        <div class="hint-box">
+          <span>方向键</span>
+          <p>移动蛇身，空格暂停或继续。撞墙或撞到自己会结束本局。</p>
+        </div>
+      </aside>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
